@@ -1,0 +1,8 @@
+{% if request.user.is_superuser %}
+  <a href="{% url "home" page="lesson" %}">Ders Düzenle</a>  --
+  <a href="{% url "home" page="language" %}">Dil Düzenle</a>  --
+  <a href="{% url "home" page="classroom" %}">Sınıf Düzenle</a>  --
+  <a href="{% url "home" page="department" %}">Şube Düzenle</a>  --
+  <a href="{% url "home" page="teacher" %}">Öğretmen Düzenle</a>  --
+  <a href="{% url "home" page="department_staff" %}">Çalışan Düzenle</a>
+{% endif %}
