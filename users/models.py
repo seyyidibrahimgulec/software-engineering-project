@@ -37,7 +37,11 @@ class Teacher(models.Model):
 
 class DepartmentStaff(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='department_staff')
-    department = models.ForeignKey(to=Department, on_delete=models.PROTECT)
+    department = models.ForeignKey(to=Department, on_delete=models.PROTECT, verbose_name="Şube")
+
+
+    def __str__(self):
+        return self.user.username
 
     class Meta:
         verbose_name = "Çalışan"
