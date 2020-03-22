@@ -18,4 +18,7 @@ from django.urls import path
 
 from home.views import IframeView
 
-urlpatterns = [path("admin/", admin.site.urls), path("i/<str:page>", IframeView.as_view(), name="home")]
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("i/<str:page>", IframeView.as_view(), name="home"),
+]
