@@ -28,32 +28,32 @@
 
 
         {% if request.user.is_superuser %}
-          <a class="nav-link" href="{% url "home" page="lesson" %}">
-            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Ders Düzenle
-          </a>
-
           <a class="nav-link" href="{% url "home" page="language" %}">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Dil Düzenle
+            Diller
           </a>
 
           <a class="nav-link" href="{% url "home" page="classroom" %}">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Sınıf Düzenle
+            Sınıflar
           </a>
           <a class="nav-link" href="{% url "home" page="department" %}">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Şube Düzenle
+            Şubeler
           </a>
           <a class="nav-link" href="{% url "home" page="teacher" %}">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Öğretmen Düzenle
+            Öğretmenler
           </a>
 
           <a class="nav-link" href="{% url "home" page="department_staff" %}">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Çalışan Düzenle
+            Şube Çalışanları
+          </a>
+
+          <a class="nav-link" href="{% url "home" page="lesson" %}">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+            Dersler
           </a>
 
         {% endif %}

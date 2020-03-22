@@ -7,6 +7,7 @@ from users.models import DepartmentStaff, Student, Teacher, User
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
     form = NewTeacherForm
+    list_filter = ("known_langs", "department")
     fields = tuple()
 
     def get_fields(self, request, obj=None):
@@ -20,10 +21,11 @@ class TeacherAdmin(admin.ModelAdmin):
 
         else:
             return (
+                "username",
+                "password",
+                "known_langs",
                 "home_phone",
                 "cell_phone",
-                "username",
-                "known_langs",
                 "department",
                 "start_work_time",
             )
