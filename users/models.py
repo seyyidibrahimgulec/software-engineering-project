@@ -16,15 +16,33 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='student')
     lessons = models.ManyToManyField(to=Lesson, through=Payment)
 
+    class Meta:
+        verbose_name = "Öğrenci"
+        verbose_name_plural = "Öğrenciler"
+
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='teacher')
-    known_langs = models.ManyToManyField(to=Language)
-    department = models.ForeignKey(to=Department, on_delete=models.PROTECT)
-    start_work_time = models.DateTimeField()
+    known_langs = models.ManyToManyField(to=Language, verbose_name="Bilinen Diller")
+    department = models.ForeignKey(to=Department, on_delete=models.PROTECT, verbose_name="Şube")
+    start_work_time = models.DateTimeField(verbose_name="İşe başlama tarihi")
+
+    def __str__(self):
+        return f"ö: {self.user.username }"
+
+    class Meta:
+        verbose_name = "Öğretmen"
+        verbose_name_plural = "Öğretmenler"
 
 
 class DepartmentStaff(models.Model):
     user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='department_staff')
-    department = models.ForeignKey(to=Department, on_delete=models.PROTECT)
+    department = models.ForeignKey(to=Department, on_delete=models.PROTECT, verbose_name="Şube")
 
+
+    def __str__(self):
+        return self.user.username
+
+    class Meta:
+        verbose_name = "Çalışan"
+        verbose_name_plural = "Çalışanlar"

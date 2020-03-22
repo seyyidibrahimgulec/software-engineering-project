@@ -2,17 +2,47 @@ from django.db import models
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=255)
-    extra_infos = models.TextField()
+    name = models.CharField(max_length=255, verbose_name="Şube")
+    adress = models.CharField(
+        max_length=255, verbose_name="Adress", null=True, blank=True
+    )
+    public_transport_info = models.CharField(
+        max_length=255, verbose_name="Toplu Ulaşım Bilgileri", null=True, blank=True
+    )
+    private_transport_info = models.CharField(
+        max_length=255, verbose_name="Özel Ulaşım Bilgileri", null=True, blank=True
+    )
+    # extra_infos = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Şube"
+        verbose_name_plural = "Şubeler"
 
 
 class Classroom(models.Model):
-    name = models.CharField(max_length=255)
-    department = models.ForeignKey(to=Department, on_delete=models.PROTECT)
+    name = models.CharField(max_length=255, verbose_name="Sınıf İsmi")
+    department = models.ForeignKey(to=Department, on_delete=models.PROTECT, verbose_name="Bağlı Olduğu Şube")
+
+    def __str__(self):
+        return f"{self.name} sınıfı"
+
+    class Meta:
+        verbose_name = "Sınıf"
+        verbose_name_plural = "Sınıflar"
 
 
 class Language(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name="Dil")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Dil"
+        verbose_name_plural = "Diller"
 
 
 class Lesson(models.Model):
@@ -20,9 +50,13 @@ class Lesson(models.Model):
     classroom = models.ForeignKey(to=Classroom, on_delete=models.PROTECT)
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
-    teacher = models.ForeignKey(to='users.Teacher', on_delete=models.PROTECT)
+    teacher = models.ForeignKey(to="users.Teacher", on_delete=models.PROTECT)
     language = models.ForeignKey(to=Language, on_delete=models.PROTECT)
     degree = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Ders"
+        verbose_name_plural = "Dersler"
 
 
 class ClassroomUnavailableSlot(models.Model):
