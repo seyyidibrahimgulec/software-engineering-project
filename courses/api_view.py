@@ -57,19 +57,4 @@ class CreateLessonAPIView(APIView):
             lesson=lesson,
         )
 
-        print(
-            "name",
-            name,
-            "teacher",
-            teacher,
-            "classroom",
-            classroom,
-            "day",
-            day,
-            "start_hour",
-            start_hour,
-            "end_hour",
-            end_hour,
-        )
-
         return Response("mk")

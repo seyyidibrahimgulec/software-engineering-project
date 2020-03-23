@@ -28,7 +28,6 @@ class TimeAvailableAPIView(APIView):
         all_availbles = [x for x in range(24)]
 
         for unable_item in itertools.chain(unable_from_class, unable_from_teach):
-            print(unable_item)
             start_hour = unable_item.start_datetime.hour
             end_hour = unable_item.end_datetime.hour
 
