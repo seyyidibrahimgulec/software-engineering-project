@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+
+
+{% block content %}
+
+  <div class="col-md-12">
+    <input id="input-name" type="text" name="name" placeholder="Ders İsmi"/> <br>
+
+    department:
+    <select id="select-department">
+      <option value="">--</option>
+      {% for department in departments %}
+        <option value="{{ department.id }}">{{ department.name }}</option>
+      {% endfor %}
+    </select>
+
+    lang:
+    <select id="select-language">
+      <option value="">--</option>
+      {% for language in languages %}
+        <option value="{{ language.id }}">{{ language.name }}</option>
+      {% endfor %}
+    </select>
+    <br/>
+
+
+    class:
+    <select id="select-classroom" name="classroom">
+      <option value="">--</option>
+    </select>
+
+    teacher:
+    <select id="select-teacher" name="teacher">
+      <option value="">--</option>
+    </select>
+
+    <br/>
+
+  </div>
+
+  <div class="col-md-12">
+    day:<br>
+    {% for i in days %}
+      <input type="radio" id="{{ i| date:'c' }}" name="select-day" value="{{ i | date:'c' }}">
+      <label for="{{ i | date:'c' }}">{{ i | date:'SHORT_DATE_FORMAT' }}</label>
+    {% endfor %}
+    <br><br>
+
+    start hour:
+    <select id="select-starthour" name="teacher" size=10>
+      <option value="">--</option>
+    </select>
+
+
+    end hour:
+    <select id="select-endhour" name="teacher" size=10>
+      <option value="">--</option>
+    </select>
+  </div>
+
+
+  <button id="send">olustur</button>
+{% endblock %}
+
+
+{% block extra_js %}
+  <script src="{% static "js/add_course.js" %}" crossorigin="anonymous"></script>
+{% endblock %}
