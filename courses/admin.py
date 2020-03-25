@@ -21,5 +21,17 @@ class ClassRoomAdmin(admin.ModelAdmin):
     search_fields = ("name", "department")
 
 
+@admin.register(Lesson)
+class LessonAdmin(admin.ModelAdmin):
+    list_display = ("name", "classroom", "teacher", "language", "degree")
+    list_filter = ("classroom", "language", "teacher", "degree")
+    search_fields = ("name", "department")
+    readonly_fields = (
+        "classroom",
+        "teacher",
+        "language",
+    )
+
+
 admin.site.register(Language)
-admin.site.register(Lesson)
+# admin.site.register(Lesson)
