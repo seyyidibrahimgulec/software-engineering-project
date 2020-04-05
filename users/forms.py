@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.db import transaction
 
-from users.models import Teacher, User, DepartmentStaff
+from users.models import Teacher, User, DepartmentStaff, Student
 
 
 class NewTeacherForm(forms.ModelForm):
@@ -72,3 +74,24 @@ class NewDepartmentStaffForm(forms.ModelForm):
             "department",
         )
         model = DepartmentStaff
+
+
+class StudentRegisterForm(UserCreationForm):
+    home_phone = forms.CharField(max_length=255, label="Ev Telefonu", required=False)
+    cell_phone = forms.CharField(max_length=255, label="Cep Telefonu", required=False)
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            'username',
+            'home_phone',
+            'cell_phone',
+        )
+
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_student = True
+        user.save()
+        Student.objects.create(user=user)
+        return user
