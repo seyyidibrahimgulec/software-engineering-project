@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'users',
     'courses',
     'payments',
-    'timeslots'
+    'timeslots',
+
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +147,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+
+LOGOUT_REDIRECT_URL = "homepage"
+LOGIN_REDIRECT_URL = "homepage"
+LOGIN_URL = "login"
