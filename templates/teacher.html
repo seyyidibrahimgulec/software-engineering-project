@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+
+
+{% block content %}
+  <h2 class="mx-auto m-3">Öğretmenin verdiği dersler</h1>
+  <div class="table-responsive">
+    <table id="table_id" class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>Dersin Adı</th>
+          <th>Sınıf Adı</th>
+          <th>Dersin Dili</th>
+          <th>Derece</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for lesson in lessons %}
+          <tr>
+            <td>{{ lesson.name }}</td>
+            <td>{{ lesson.classroom.name }}</td>
+            <td>{{ lesson.language }}</td>
+            <td>{{ lesson.degree }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}
+
+
+{% block extra_js %}
+{% endblock %}

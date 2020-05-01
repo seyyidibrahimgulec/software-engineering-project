@@ -19,7 +19,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 from courses.api_view import ClassRoomAPIView, CreateLessonAPIView
 from courses.views import AddLessonView
-from home.views import IframeView, homepage, StudentDetailView
+from home.views import IframeView, homepage, StudentDetailView, TeacherDetailView
 from timeslots.api_views import TimeAvailableAPIView
 from users.api_views import TeachersAPIView
 from users.views import StudentRegisterView
@@ -34,6 +34,7 @@ urlpatterns = [
     path('', homepage, name='homepage'),
     path('register/', StudentRegisterView.as_view(), name='register'),
     path('student/<int:pk>/', StudentDetailView.as_view(), name='student'),
+    path('teacher/<int:pk>/', TeacherDetailView.as_view(), name='teacher'),
 ]
 
 # API Views

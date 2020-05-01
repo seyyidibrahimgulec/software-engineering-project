@@ -23,7 +23,7 @@ class NewTeacherForm(forms.ModelForm):
             user = User.objects.create(
                 cell_phone=cell_phone, home_phone=home_phone, username=username
             )
-
+            user.is_teacher = True
             if password:
                 user.set_password(password)
                 user.save()
@@ -59,7 +59,7 @@ class NewDepartmentStaffForm(forms.ModelForm):
             user = User.objects.create(
                 cell_phone=cell_phone, home_phone=home_phone, username=username
             )
-
+            user.is_department_staff = True
             if password:
                 user.set_password(password)
                 user.save()
