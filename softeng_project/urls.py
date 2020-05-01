@@ -38,8 +38,8 @@ urlpatterns = [
 
     path('', homepage, name='homepage'),
     path('register/', StudentRegisterView.as_view(), name='register'),
-    path('student/<int:pk>/', StudentDetailView.as_view(), name='student'),
-    path('teacher/<int:pk>/', TeacherDetailView.as_view(), name='teacher'),
+    path('student/', StudentDetailView.as_view(), name='student'),
+    path('teacher/', TeacherDetailView.as_view(), name='teacher'),
     path('register_to_lesson/',
          AddStudentToLesson.as_view(), name='register_to_lesson'),
     path('department_staff', DepartmentStaffIndexView.as_view(), name='department_staff'),

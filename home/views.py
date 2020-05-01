@@ -52,30 +52,25 @@ def homepage(request):
         return redirect(reverse('department_staff'))
 
 
-class StudentDetailView(DetailView):
-    model = Student
-    template_name = 'student.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+class StudentDetailView(View):
+    def get(self, request):
         student = Student.objects.get(user=self.request.user)
         payments = Payment.objects.filter(student=student)
         installments = Installment.objects.filter(payment__in=payments)
+
+        context = {}
         context['payments'] = payments
         context['installments'] = installments
-        return context
+        return render(request, 'student.html', context=context, )
 
 
 class TeacherDetailView(DetailView):
-    model = Teacher
-    template_name = 'teacher.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get(self, request):
         teacher = Teacher.objects.get(user=self.request.user)
         lessons = Lesson.objects.filter(teacher=teacher)
+        context = {}
         context['lessons'] = lessons
-        return context
+        return render(request, 'teacher.html', context=context, )
 
 
 class DepartmentStaffIndexView(View):
