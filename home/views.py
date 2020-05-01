@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
+from django.views.generic import DetailView
 from django.shortcuts import redirect
 from django.http import HttpResponse
+
+from users.models import Student, Teacher
+from payments.models import Payment, Installment
+from courses.models import Lesson
 
 
 class IframeView(View):
@@ -40,11 +45,35 @@ def homepage(request):
     elif request.user.is_superuser:
         return redirect(reverse("home", args=['language']))
     elif request.user.is_teacher:
-        # TODO: Add Teacher Pages
-        return HttpResponse("<h1>Teacher</h2>")
+        return redirect(reverse('teacher', kwargs={'pk': request.user.pk}))
     elif request.user.is_student:
-        # TODO: Add Student Pages
-        return HttpResponse("<h1>Student</h2>")
+        return redirect(reverse('student', kwargs={'pk': request.user.pk}))
     elif request.user.is_department_staff:
         # TODO: Add DepartmentStaff Pages
         return HttpResponse("<h1>DepartmentStaff</h2>")
+
+
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'student.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = Student.objects.get(user=self.request.user)
+        payments = Payment.objects.filter(student=student)
+        installments = Installment.objects.filter(payment__in=payments)
+        context['payments'] = payments
+        context['installments'] = installments
+        return context
+
+
+class TeacherDetailView(DetailView):
+    model = Teacher
+    template_name = 'teacher.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        teacher = Teacher.objects.get(user=self.request.user)
+        lessons = Lesson.objects.filter(teacher=teacher)
+        context['lessons'] = lessons
+        return context
