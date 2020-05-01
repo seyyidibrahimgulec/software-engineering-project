@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+
+
+{% block content %}
+  <h2 class="mx-auto m-3">Taksitler</h1>
+    <div class="table-responsive">
+      <table id="table_id" class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Departman Adı</th>
+            <th>Sınıf Adı</th>
+            <th>Dersin Dili</th>
+            <th>Dersin Adı</th>
+            <th>Öğretmen Adı</th>
+            <th>Derece</th>
+            <th>Ders Tarihleri</th>
+            <th>Öğrenci Ekle</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for lesson in lessons %}
+            <tr>
+              <td>{{ lesson.classroom.department }}</td>
+              <td>{{ lesson.classroom.name }}</td>
+              <td>{{ lesson.language }}</td>
+              <td>{{ lesson.name }}</td>
+              <td>{{ lesson.teacher.user.username }}</td>
+              <td>{{ lesson.degree }}</td>
+              <td>
+                {% for slot in lesson.slots %}
+                  {{ slot.start_datetime }} - {{ slot.end_datetime }}<br>
+                {% endfor %}
+              </td>
+              <td>
+                <a href="{% url 'add_student_to_lesson' lesson_pk=lesson.pk %}">Öğrenci Ekle</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+
+{% endblock %}
+
+
+{% block extra_js %}
+{% endblock %}

@@ -27,6 +27,7 @@ from home.views import ( DepartmentStaffIndexView,
 from timeslots.api_views import TimeAvailableAPIView
 from users.api_views import TeachersAPIView
 from users.views import StudentRegisterView
+from payments.views import PayInstallment
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -43,6 +44,8 @@ urlpatterns = [
     path('register_to_lesson/',
          AddStudentToLesson.as_view(), name='register_to_lesson'),
     path('department_staff', DepartmentStaffIndexView.as_view(), name='department_staff'),
+    path('pay_installment', PayInstallment.as_view(), name='pay_installment'),
+    
     path('add_student_to_lesson/<int:lesson_pk>',
          AddStudentToLessonView.as_view(), name='add_student_to_lesson'),
 

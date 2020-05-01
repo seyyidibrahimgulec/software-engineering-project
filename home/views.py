@@ -1,14 +1,12 @@
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView
-from django.views.generic.detail import SingleObjectMixin
 
 from courses.models import Lesson
 from payments.models import Installment, Payment
 from timeslots.models import TeacherUnavailableSlot
-from users.models import DepartmentStaff, Student, Teacher, User
+from users.models import DepartmentStaff, Student, Teacher
 
 
 class IframeView(View):
@@ -32,6 +30,9 @@ class IframeView(View):
 
         elif self.page == "department_staff":
             self.url = reverse("admin:users_departmentstaff_changelist")
+
+        elif self.page == "installment":
+            self.url = reverse("admin:payments_installment_changelist")
 
     def get(self, request, *args, **kwargs):
         self.__set_url()

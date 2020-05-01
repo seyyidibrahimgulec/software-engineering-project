@@ -1,11 +1,11 @@
 import datetime
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 
 from courses.models import Department, Language, Lesson
-from payments.models import Payment
+from payments.models import Installment, Payment
 from users.models import Student
 
 
@@ -56,16 +56,37 @@ class AddStudentToLessonView(View):
 
 class AddStudentToLesson(View):
     def post(self, request):
-        print(request.POST)
         student = get_object_or_404(Student, user_id=request.POST.get("student"))
         lesson = get_object_or_404(Lesson, id=request.POST.get("lesson"))
-        amount = request.POST.get("amount")
+        amount = int(request.POST.get("amount", 1))
+        installment_count = int(request.POST.get("installment_count", 1))
 
-        Payment.objects.create(
+        payment_count = Payment.objects.filter(
             lesson=lesson,
             student=student,
-            amount=amount
-        )
+        ).count()
 
-        return HttpResponse("ok?")
-        # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        if payment_count:
+            payment = Payment.objects.get(
+                lesson=lesson,
+                student=student,
+            )
+            payment.amount = amount
+            payment.save()
+
+        else:
+            payment = Payment.objects.create(
+                lesson=lesson,
+                student=student,
+                amount=amount
+            )
+
+        one_installment = amount/installment_count
+        for i in range(installment_count):
+            Installment.objects.create(
+                amount=one_installment,
+                payment=payment,
+                is_paid=False
+            )
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

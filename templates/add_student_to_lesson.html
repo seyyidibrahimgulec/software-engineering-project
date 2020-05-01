@@ -14,11 +14,15 @@
     <select id="select-student" name="student" size=10>
       <option value="">--</option>
       {% for student in students %}
-        <option value="{{ student.pk }}">{{ student }}1</option>
+        <option value="{{ student.pk }}">{{ student }}</option>
       {% endfor %}
     </select>
 
+    <br>
     miktar: <input type="number" name="amount"/>
+    <br>
+    taksit sayısı: <input type="number" name="installment_count"/>
+    <br>
 
     <br>
 
