@@ -45,9 +45,9 @@ def homepage(request):
     elif request.user.is_superuser:
         return redirect(reverse("home", args=['language']))
     elif request.user.is_teacher:
-        return redirect(reverse('teacher', kwargs={'pk': request.user.pk}))
+        return redirect(reverse('teacher'))
     elif request.user.is_student:
-        return redirect(reverse('student', kwargs={'pk': request.user.pk}))
+        return redirect(reverse('student'))
     elif request.user.is_department_staff:
         return redirect(reverse('department_staff'))
 
