@@ -9,34 +9,13 @@
 {% block content %}
 
   <div class="col-md-12">
-    <input id="input-name" type="text" name="name" placeholder="Ders İsmi"/> <br>
-
-    department:
-    <select id="select-department">
+    1
+    lesson:
+    <select id="select-lesson">
       <option value="">--</option>
-      {% for department in departments %}
-        <option value="{{ department.id }}">{{ department.name }}</option>
+      {% for lesson in lessons %}
+        <option value="{{ lesson.id }}">{{ lesson.get_long_name }}</option>
       {% endfor %}
-    </select>
-
-    lang:
-    <select id="select-language">
-      <option value="">--</option>
-      {% for language in languages %}
-        <option value="{{ language.id }}">{{ language.name }}</option>
-      {% endfor %}
-    </select>
-    <br/>
-
-
-    class:
-    <select id="select-classroom" name="classroom">
-      <option value="">--</option>
-    </select>
-
-    teacher:
-    <select id="select-teacher" name="teacher">
-      <option value="">--</option>
     </select>
 
     <br/>
@@ -64,7 +43,7 @@
   </div>
 
 
-  <button id="send_new_course">olustur</button>
+  <button id="send_add_slot">olustur</button>
 {% endblock %}
 
 

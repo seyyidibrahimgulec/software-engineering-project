@@ -4,15 +4,24 @@ import itertools
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from courses.models import Classroom
+from courses.models import Classroom, Lesson
 from timeslots.models import ClassroomUnavailableSlot, TeacherUnavailableSlot
 from users.models import Teacher
 
 
 class TimeAvailableAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        teacher = Teacher.objects.get(pk=request.GET.get("teacher"))
-        classroom = Classroom.objects.get(pk=request.GET.get("classroom"))
+        lesson_id = request.GET.get("lesson")
+        if lesson_id:
+            lesson = Lesson.objects.get(pk=lesson_id)
+            teacher = lesson.teacher
+            classroom = lesson.classroom
+            print(teacher, classroom)
+
+        else:
+            teacher = Teacher.objects.get(pk=request.GET.get("teacher"))
+            classroom = Classroom.objects.get(pk=request.GET.get("classroom"))
+
         day = datetime.datetime.strptime(request.GET.get("day"), "%Y-%m-%dT%H:%M:%S.%f")
         day = datetime.datetime(year=day.year, month=day.month, day=day.day)
         end_of_day = day + datetime.timedelta(days=1)

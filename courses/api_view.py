@@ -58,3 +58,31 @@ class CreateLessonAPIView(APIView):
         )
 
         return Response("mk")
+
+
+class AddLessonSlotAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        # TODO: make post
+        lesson = Lesson.objects.get(pk=request.GET.get("lesson"))
+        start_hour = int(request.GET.get("start_hour"))
+        end_hour = int(request.GET.get("end_hour"))
+
+        # inputs
+        day = datetime.datetime.strptime(request.GET.get("day"), "%Y-%m-%dT%H:%M:%S.%f")
+        day = datetime.datetime(year=day.year, month=day.month, day=day.day)
+
+        TeacherUnavailableSlot.objects.create(
+            start_datetime=day + datetime.timedelta(hours=start_hour),
+            end_datetime=day + datetime.timedelta(hours=end_hour),
+            teacher=lesson.teacher,
+            lesson=lesson,
+        )
+
+        ClassroomUnavailableSlot.objects.create(
+            start_datetime=day + datetime.timedelta(hours=start_hour),
+            end_datetime=day + datetime.timedelta(hours=end_hour),
+            classroom=lesson.classroom,
+            lesson=lesson,
+        )
+
+        return Response("mk")

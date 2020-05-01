@@ -1,37 +1,37 @@
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic import DetailView
-from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.views.generic.detail import SingleObjectMixin
 
-from users.models import Student, Teacher
-from payments.models import Payment, Installment
 from courses.models import Lesson
+from payments.models import Installment, Payment
+from timeslots.models import TeacherUnavailableSlot
+from users.models import DepartmentStaff, Student, Teacher, User
 
 
 class IframeView(View):
     def __set_url(self):
         self.page = self.kwargs.get("page")
 
-        if self.page=="lesson":
+        if self.page == "lesson":
             self.url = reverse("admin:courses_lesson_changelist")
 
-        elif self.page=="language":
+        elif self.page == "language":
             self.url = reverse("admin:courses_language_changelist")
 
-        elif self.page=="classroom":
+        elif self.page == "classroom":
             self.url = reverse("admin:courses_classroom_changelist")
 
-        elif self.page=="department":
+        elif self.page == "department":
             self.url = reverse("admin:courses_department_changelist")
 
-        elif self.page=="teacher":
+        elif self.page == "teacher":
             self.url = reverse("admin:users_teacher_changelist")
 
-        elif self.page=="department_staff":
+        elif self.page == "department_staff":
             self.url = reverse("admin:users_departmentstaff_changelist")
-
 
     def get(self, request, *args, **kwargs):
         self.__set_url()
@@ -49,8 +49,7 @@ def homepage(request):
     elif request.user.is_student:
         return redirect(reverse('student', kwargs={'pk': request.user.pk}))
     elif request.user.is_department_staff:
-        # TODO: Add DepartmentStaff Pages
-        return HttpResponse("<h1>DepartmentStaff</h2>")
+        return redirect(reverse('department_staff'))
 
 
 class StudentDetailView(DetailView):
@@ -77,3 +76,16 @@ class TeacherDetailView(DetailView):
         lessons = Lesson.objects.filter(teacher=teacher)
         context['lessons'] = lessons
         return context
+
+
+class DepartmentStaffIndexView(View):
+    def get(self, request, *args, **kwargs):
+        department = DepartmentStaff.objects.get(user=request.user).department
+        lessons = Lesson.objects.filter(classroom__department=department).order_by("-pk")
+
+        for lesson in lessons:
+            # NOTE: bok gibi kod oldu biliyorum
+            lesson.slots = TeacherUnavailableSlot.objects.filter(lesson=lesson)
+
+        context = {"lessons": lessons}
+        return render(request, "department_staf.html", context)

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+
+
+{% block content %}
+
+  <form action="{% url 'register_to_lesson' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="lesson" value="{{ lesson.id }}"/>
+    <select id="select-student" name="student" size=10>
+      <option value="">--</option>
+      {% for student in students %}
+        <option value="{{ student.pk }}">{{ student }}1</option>
+      {% endfor %}
+    </select>
+
+    miktar: <input type="number" name="amount"/>
+
+    <br>
+
+    <button>Yolla</button>
+  </form>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+  
+{% endblock %}
