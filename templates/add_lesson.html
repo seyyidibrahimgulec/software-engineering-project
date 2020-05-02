@@ -9,62 +9,78 @@
 {% block content %}
 
   <div class="col-md-12">
-    <input id="input-name" type="text" name="name" placeholder="Ders İsmi"/> <br>
+    <label class="mt-2">Dersin İsmi:</label>
+    <input class="form-control" id="input-name" type="text" name="name" placeholder="Ders İsmi"/>
+    
+    <div class="form-row">
+      <div class="col">
+	<label>Dersin Departmanı :</label>
+	<select class="form-control" id="select-department">
+	  <option value="">--</option>
+	  {% for department in departments %}
+          <option value="{{ department.id }}">{{ department.name }}</option>
+	  {% endfor %}
+	</select>
+      </div>
 
-    department:
-    <select id="select-department">
-      <option value="">--</option>
-      {% for department in departments %}
-        <option value="{{ department.id }}">{{ department.name }}</option>
-      {% endfor %}
-    </select>
+      <div class="col">
+	<label>Dersin Dili :</label>
+	<select class="form-control" id="select-language">
+	  <option value="">--</option>
+	  {% for language in languages %}
+          <option value="{{ language.id }}">{{ language.name }}</option>
+	  {% endfor %}
+	</select>
+      </div>
+    </div>
 
-    lang:
-    <select id="select-language">
-      <option value="">--</option>
-      {% for language in languages %}
-        <option value="{{ language.id }}">{{ language.name }}</option>
-      {% endfor %}
-    </select>
-    <br/>
-
-
-    class:
-    <select id="select-classroom" name="classroom">
-      <option value="">--</option>
-    </select>
-
-    teacher:
-    <select id="select-teacher" name="teacher">
-      <option value="">--</option>
-    </select>
-
-    <br/>
+    <div class="form-row">
+      <div class="col">
+	<label>Dersin Sınıfı :</label>
+	<select class="form-control" id="select-classroom" name="classroom">
+	  <option value="">--</option>
+	</select>
+      </div>
+      <div class="col">
+	<label>Dersin Öğretmeni :</label>
+	<select class="form-control" id="select-teacher" name="teacher">
+	  <option value="">--</option>
+	</select>
+      </div>
+    </div>
 
   </div>
 
   <div class="col-md-12">
-    day:<br>
-    {% for i in days %}
-      <input type="radio" id="{{ i| date:'c' }}" name="select-day" value="{{ i | date:'c' }}">
-      <label for="{{ i | date:'c' }}">{{ i | date:'SHORT_DATE_FORMAT' }}</label>
-    {% endfor %}
-    <br><br>
+    <div class="form-row">
+      <div class="col">
+	<label>Dersin tarihi :</label>
+	{% for i in days %}
+	<div class="form-check">
+	  <input class="form-check-input" type="radio" id="{{ i| date:'c' }}" name="select-day" value="{{ i | date:'c' }}">
+	  <label class="form-check-label" for="{{ i | date:'c' }}">{{ i | date:'SHORT_DATE_FORMAT' }}</label>
+	</div>
+	{% endfor %}
+      </div>
 
-    start hour:
-    <select id="select-starthour" name="teacher" size=10>
-      <option value="">--</option>
-    </select>
 
-
-    end hour:
-    <select id="select-endhour" name="teacher" size=10>
-      <option value="">--</option>
-    </select>
+      <div class="col">
+	<label>Başlangıç saati :</label>
+	<select class="custom-select" id="select-starthour" name="teacher" size=13>
+	  <option value="">--</option>
+	</select>
+      </div>
+      <div class="col">
+	<label>Bitiş saati :</label>
+	<select class="custom-select" id="select-endhour" name="teacher" size=13>
+	  <option value="">--</option>
+	</select>
+      </div>
+    </div>
   </div>
 
 
-  <button id="send_new_course">olustur</button>
+  <button class="btn btn-secondary btn-block mt-2" id="send_new_course">Oluştur</button>
 {% endblock %}
 
 
