@@ -11,22 +11,32 @@
   <form action="{% url 'register_to_lesson' %}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="lesson" value="{{ lesson.id }}"/>
-    <select id="select-student" name="student" size=10>
-      <option value="">--</option>
-      {% for student in students %}
-        <option value="{{ student.pk }}">{{ student }}</option>
-      {% endfor %}
-    </select>
-
-    <br>
-    miktar: <input type="number" name="amount"/>
-    <br>
-    taksit sayısı: <input type="number" name="installment_count"/>
-    <br>
-
-    <br>
-
-    <button>Yolla</button>
+    <div class="form-row">
+      <div class="col">
+	<label class="mt-2">Öğrenciler</label>
+	<select class="custom-select" id="select-student" name="student" size=10>
+	  {% for student in students %}
+          <option value="{{ student.pk }}">{{ student }}</option>
+	  {% endfor %}
+	</select>
+      </div>
+      <div class="col mt-2">
+	<div class="form-row">
+	  <div class="col">
+	    <label>Miktar</label>
+	    <input class="form-control" type="number" name="amount"/>
+	  </div>
+	</div>
+	<div class="form-row">
+	  <div class="col">
+	    <label>Taksit Sayısı</label>
+	    <input class="form-control" type="number" name="installment_count"/>
+	  </div>
+	</div>
+      </div>
+      
+      <button class="btn btn-secondary btn-block mt-2">Ekle</button>
+    </div>
   </form>
 
 

@@ -9,9 +9,8 @@
 {% block content %}
 
   <div class="col-md-12">
-    1
-    lesson:
-    <select id="select-lesson">
+    <label class="mt-2">Dersin Adı</label>
+    <select class="form-control" id="select-lesson">
       <option value="">--</option>
       {% for lesson in lessons %}
         <option value="{{ lesson.id }}">{{ lesson.get_long_name }}</option>
@@ -23,27 +22,33 @@
   </div>
 
   <div class="col-md-12">
-    day:<br>
-    {% for i in days %}
-      <input type="radio" id="{{ i| date:'c' }}" name="select-day" value="{{ i | date:'c' }}">
-      <label for="{{ i | date:'c' }}">{{ i | date:'SHORT_DATE_FORMAT' }}</label>
-    {% endfor %}
-    <br><br>
-
-    start hour:
-    <select id="select-starthour" name="teacher" size=10>
-      <option value="">--</option>
-    </select>
-
-
-    end hour:
-    <select id="select-endhour" name="teacher" size=10>
-      <option value="">--</option>
-    </select>
+    <div class="form-row">
+      <div class="col">
+	<label>Dersin Tarihi</label>
+	{% for i in days %}
+	<div class="form-check">
+	  <input class="form-check-input" type="radio" id="{{ i| date:'c' }}" name="select-day" value="{{ i | date:'c' }}">
+	  <label class="form-check-label" for="{{ i | date:'c' }}">{{ i | date:'SHORT_DATE_FORMAT' }}</label>
+	</div>
+	{% endfor %}
+      </div>
+      <div class="col">
+	<label>Başlangıç Tarihi</label>
+	<select class="custom-select" id="select-starthour" name="teacher" size=13>
+	  <option value="">--</option>
+	</select>
+      </div>
+      <div class="col">
+	<label>Bitiş Tarihi</label>
+	<select class="custom-select" id="select-endhour" name="teacher" size=13>
+	  <option value="">--</option>
+	</select>
+      </div>
+    </div>
   </div>
 
 
-  <button id="send_add_slot">olustur</button>
+  <button class="btn btn-secondary btn-block mt-2" id="send_add_slot">Oluştur</button>
 {% endblock %}
 
 
