@@ -1,6 +1,7 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-from courses.models import Lesson, Language, Department
+from django.db import models
+
+from courses.models import Department, Language, Lesson
 from payments.models import Payment
 
 
@@ -13,8 +14,12 @@ class User(AbstractUser):
 
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='student')
+    user = models.OneToOneField(User, on_delete=models.PROTECT,
+                                primary_key=True, related_name='student')
     lessons = models.ManyToManyField(to=Lesson, through=Payment)
+
+    def __str__(self):
+        return self.user.username
 
     class Meta:
         verbose_name = "Öğrenci"
@@ -22,7 +27,8 @@ class Student(models.Model):
 
 
 class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='teacher')
+    user = models.OneToOneField(User, on_delete=models.PROTECT,
+                                primary_key=True, related_name='teacher')
     known_langs = models.ManyToManyField(to=Language, verbose_name="Bilinen Diller")
     department = models.ForeignKey(to=Department, on_delete=models.PROTECT, verbose_name="Şube")
     start_work_time = models.DateTimeField(verbose_name="İşe başlama tarihi")
@@ -36,9 +42,9 @@ class Teacher(models.Model):
 
 
 class DepartmentStaff(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True, related_name='department_staff')
+    user = models.OneToOneField(User, on_delete=models.PROTECT,
+                                primary_key=True, related_name='department_staff')
     department = models.ForeignKey(to=Department, on_delete=models.PROTECT, verbose_name="Şube")
-
 
     def __str__(self):
         return self.user.username

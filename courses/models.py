@@ -65,6 +65,10 @@ class Lesson(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def get_long_name(self):
+        return f"{self.name} - {self.classroom.department} - {self.teacher}"
+
     class Meta:
         verbose_name = "Ders"
         verbose_name_plural = "Dersler"

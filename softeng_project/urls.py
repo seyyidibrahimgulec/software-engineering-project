@@ -14,27 +14,41 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import path
 
-from courses.api_view import ClassRoomAPIView, CreateLessonAPIView
-from courses.views import AddLessonView
-from home.views import IframeView, homepage, StudentDetailView, TeacherDetailView
+from courses.api_view import (AddLessonSlotAPIView, ClassRoomAPIView,
+                              CreateLessonAPIView)
+from courses.views import (AddLessonView, AddStudentToLessonView,
+                           AddTimeSlotView, AddStudentToLesson)
+from home.views import ( DepartmentStaffIndexView,
+                        IframeView, StudentDetailView, TeacherDetailView,
+                        homepage)
 from timeslots.api_views import TimeAvailableAPIView
 from users.api_views import TeachersAPIView
 from users.views import StudentRegisterView
-
+from payments.views import PayInstallment
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("add_lesson/", AddLessonView.as_view(), name="add_lesson"),
+    path("add_timeslot/", AddTimeSlotView.as_view(), name="add_timeslot"),
     path("i/<str:page>/", IframeView.as_view(), name="home"),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+
     path('', homepage, name='homepage'),
     path('register/', StudentRegisterView.as_view(), name='register'),
-    path('student/<int:pk>/', StudentDetailView.as_view(), name='student'),
-    path('teacher/<int:pk>/', TeacherDetailView.as_view(), name='teacher'),
+    path('student/', StudentDetailView.as_view(), name='student'),
+    path('teacher/', TeacherDetailView.as_view(), name='teacher'),
+    path('register_to_lesson/',
+         AddStudentToLesson.as_view(), name='register_to_lesson'),
+    path('department_staff', DepartmentStaffIndexView.as_view(), name='department_staff'),
+    path('pay_installment', PayInstallment.as_view(), name='pay_installment'),
+    
+    path('add_student_to_lesson/<int:lesson_pk>',
+         AddStudentToLessonView.as_view(), name='add_student_to_lesson'),
+
 ]
 
 # API Views
@@ -43,4 +57,6 @@ urlpatterns += [
     path("api/get_teacher", TeachersAPIView.as_view()),
     path("api/get_hours", TimeAvailableAPIView.as_view()),
     path("api/create_lesson", CreateLessonAPIView.as_view()),
+    path("api/add_slot_to_lesson", AddLessonSlotAPIView.as_view()),
+
 ]

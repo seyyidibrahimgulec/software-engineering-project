@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+
+
+{% block content %}
+
+  <form action="{% url 'register_to_lesson' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="lesson" value="{{ lesson.id }}"/>
+    <select id="select-student" name="student" size=10>
+      <option value="">--</option>
+      {% for student in students %}
+        <option value="{{ student.pk }}">{{ student }}</option>
+      {% endfor %}
+    </select>
+
+    <br>
+    miktar: <input type="number" name="amount"/>
+    <br>
+    taksit sayısı: <input type="number" name="installment_count"/>
+    <br>
+
+    <br>
+
+    <button>Yolla</button>
+  </form>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+  
+{% endblock %}

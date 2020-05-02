@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Permission
 from django.db import transaction
 
-from users.models import Teacher, User, DepartmentStaff, Student
+from users.models import DepartmentStaff, Student, Teacher, User
 
 
 class NewTeacherForm(forms.ModelForm):
@@ -41,6 +42,7 @@ class NewTeacherForm(forms.ModelForm):
         )
         model = Teacher
 
+
 class NewDepartmentStaffForm(forms.ModelForm):
     username = forms.CharField(label="Kullanıcı Adı", required=False)
     home_phone = forms.CharField(max_length=255, label="Ev Telefonu", required=False)
@@ -57,9 +59,16 @@ class NewDepartmentStaffForm(forms.ModelForm):
 
         if all((home_phone, cell_phone, username, password)):
             user = User.objects.create(
-                cell_phone=cell_phone, home_phone=home_phone, username=username
+                cell_phone=cell_phone, home_phone=home_phone, username=username,
+                is_department_staff=True, is_staff=True
             )
-            user.is_department_staff = True
+
+            # NOTE: evet tüm permissionları vermek aptalca falan
+            permissions = Permission.objects.all()
+            for p in permissions:
+                user.user_permissions.add(p)
+            user.save()
+
             if password:
                 user.set_password(password)
                 user.save()

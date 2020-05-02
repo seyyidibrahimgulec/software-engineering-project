@@ -2,17 +2,34 @@ var SELECTED_DEPARTMENT;
 var SELECTED_LANG;
 var SELECTED_TEACHER;
 var SELECTED_CLASSROOM;
+var SELECTED_LESSON;
 var SELECTED_DAY = $('input[name="select-day"]:checked').val();
 
 function get_available_hours(){
   $('#select-starthour').html("");
   $('#select-endhour').html("");
-  $.ajax({
-    url: "/api/get_hours", data: {
+
+  let data = {
+    day: SELECTED_DAY,
+  };
+
+  if (SELECTED_LESSON){
+    data = {
+      ...data,
+      lesson: SELECTED_LESSON,
+    }
+  }
+  else{
+    data = {
+      ...data,
       classroom: SELECTED_CLASSROOM,
       teacher: SELECTED_TEACHER,
-      day: SELECTED_DAY,
     }
+  }
+  
+
+  $.ajax({
+    url: "/api/get_hours", data: data
   }).done(function(result){
 
     result.forEach(item => {
@@ -59,7 +76,7 @@ function get_teachers(){
 
 }
 
-function send(){
+function send_new_course(){
   $.ajax({
     url: "/api/create_lesson",
     data: {
@@ -74,8 +91,27 @@ function send(){
   }).done(function(){
     window.location.replace("/i/lesson");
   });
-
 }
+
+function send_add_slot(){
+  $.ajax({
+    url: "/api/add_slot_to_lesson",
+    data: {
+      lesson:$("#select-lesson").val(),
+      day: SELECTED_DAY,
+      start_hour:$("#select-starthour").val(),
+      end_hour:$("#select-endhour").val(),
+    }
+  }).done(function(){
+    window.location.replace("/i/lesson");
+  });
+}
+
+$("#select-lesson").change(function(){
+  SELECTED_LESSON = $(this).val();
+  get_available_hours();
+})
+
 
 
 $('input[name="select-day"]').change(function(){
@@ -103,6 +139,10 @@ $("#select-teacher").change(function(){
   get_available_hours();
 })
 
-$("#send").click(function(){
-  send()
+$("#send_new_course").click(function(){
+  send_new_course()
+})
+
+$("#send_add_slot").click(function(){
+  send_add_slot()
 })
