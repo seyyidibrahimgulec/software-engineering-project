@@ -58,6 +58,9 @@ class StudentDetailView(View):
         student = Student.objects.get(user=self.request.user)
         payments = Payment.objects.filter(student=student)
 
+        for payment in payments:
+            payment.slots = TeacherUnavailableSlot.objects.filter(lesson=payment.lesson).order_by("start_datetime")
+            
         context = {}
         context['payments'] = payments
         return render(request, 'student.html', context=context, )
@@ -78,6 +81,10 @@ class TeacherDetailView(DetailView):
     def get(self, request):
         teacher = Teacher.objects.get(user=self.request.user)
         lessons = Lesson.objects.filter(teacher=teacher)
+
+        for lesson in lessons:
+            lesson.slots = TeacherUnavailableSlot.objects.filter(lesson=lesson).order_by("start_datetime")
+        
         context = {}
         context['lessons'] = lessons
         return render(request, 'teacher.html', context=context, )
@@ -89,7 +96,6 @@ class DepartmentStaffIndexView(View):
         lessons = Lesson.objects.filter(classroom__department=department).order_by("-pk")
 
         for lesson in lessons:
-            # NOTE: bok gibi kod oldu biliyorum
             lesson.slots = TeacherUnavailableSlot.objects.filter(lesson=lesson)
 
         context = {"lessons": lessons}

@@ -19,6 +19,7 @@
           <th>Öğretmen Adı</th>
           <th>Derece</th>
           <th>Kurs Bedeli</th>
+	  <th>Tarihler</th>
         </tr>
       </thead>
       <tbody>
@@ -31,11 +32,20 @@
             <td>{{ payment.lesson.teacher.user.username }}</td>
             <td>{{ payment.lesson.degree }}</td>
             <td>{{ payment.amount }}</td>
+
+	    <td>
+                {% for slot in payment.slots %}
+                  {{ slot.start_datetime }} - {{ slot.end_datetime }}<br>
+                {% endfor %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
+
+
+
 
 {% endblock %}
 
