@@ -57,12 +57,21 @@ class StudentDetailView(View):
     def get(self, request):
         student = Student.objects.get(user=self.request.user)
         payments = Payment.objects.filter(student=student)
-        installments = Installment.objects.filter(payment__in=payments)
 
         context = {}
         context['payments'] = payments
-        context['installments'] = installments
         return render(request, 'student.html', context=context, )
+
+    
+class StudentPaymentView(View):
+    def get(self, request):
+        student = Student.objects.get(user=self.request.user)
+        payments = Payment.objects.filter(student=student)
+        installments = Installment.objects.filter(payment__in=payments)
+
+        context = {}
+        context['installments'] = installments
+        return render(request, 'student_payment.html', context=context, )
 
 
 class TeacherDetailView(DetailView):

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+{% endblock %}
+
+
+
+{% block content %}
+  <h2 class="mx-auto m-3">Öğrencinin borç bilgisi</h2>
+    <div class="table-responsive">
+      <table id="table_id" class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Departman Adı</th>
+            <th>Sınıf Adı</th>
+            <th>Dersin Adı</th>
+            <th>Taksit Ücreti</th>
+            <th>Ödenme Bilgisi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for installment in installments %}
+            <tr>
+              <td>{{ installment.payment.lesson.classroom.department }}</td>
+              <td>{{ installment.payment.lesson.classroom.name }}</td>
+              <td>{{ installment.payment.lesson.name }}</td>
+              <td>{{ installment.amount }}</td>
+              {% if installment.is_paid %}
+                <td>Ödenmiş</td>
+              {% else %}
+                <td>Ödenmemiş</td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}
+
+
+{% block extra_js %}
+{% endblock %}
