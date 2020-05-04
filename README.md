@@ -3,7 +3,7 @@
 Software Engineering Course - Term Project
 
 # Table of Contents <!-- :TOC: -->
-- [Ytu Dil Kursu Clone](#ytu-dil-kursu-clone)
+- [Ytu Dil Kursu](#ytu-dil-kursu)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributors](#contributors)
