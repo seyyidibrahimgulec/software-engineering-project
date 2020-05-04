@@ -42,8 +42,8 @@ Software Engineering Course - Term Project
 
 # Screenshots
 
-[Screenshot-1](screenshots/ss_01.png)
-[Screenshot-2](screenshots/ss_02.png)
+![Screenshot-1](screenshots/ss_01.png)
+![Screenshot-2](screenshots/ss_02.png)
 ![Screenshot-3](screenshots/ss_03.png)
 ![Screenshot-4](screenshots/ss_04.png)
 ![Screenshot-5](screenshots/ss_05.png)
