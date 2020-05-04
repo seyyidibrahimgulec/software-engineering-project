@@ -23,7 +23,7 @@ from courses.views import (AddLessonView, AddStudentToLessonView,
                            AddTimeSlotView, AddStudentToLesson)
 from home.views import ( DepartmentStaffIndexView,
                         IframeView, StudentDetailView, TeacherDetailView,
-                        homepage)
+                         homepage, StudentPaymentView, )
 from timeslots.api_views import TimeAvailableAPIView
 from users.api_views import TeachersAPIView
 from users.views import StudentRegisterView
@@ -48,6 +48,7 @@ urlpatterns = [
     
     path('add_student_to_lesson/<int:lesson_pk>',
          AddStudentToLessonView.as_view(), name='add_student_to_lesson'),
+    path('student_payment/', StudentPaymentView.as_view(), name='student_payment'),
 
 ]
 

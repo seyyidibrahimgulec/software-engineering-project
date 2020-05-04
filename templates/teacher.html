@@ -16,6 +16,7 @@
           <th>Sınıf Adı</th>
           <th>Dersin Dili</th>
           <th>Derece</th>
+	  <th>Tarihler</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,11 @@
             <td>{{ lesson.classroom.name }}</td>
             <td>{{ lesson.language }}</td>
             <td>{{ lesson.degree }}</td>
+	    <td>
+              {% for slot in lesson.slots %}
+                {{ slot.start_datetime }} - {{ slot.end_datetime }}<br>
+              {% endfor %}
+            </td>
           </tr>
         {% endfor %}
       </tbody>
